@@ -19,7 +19,7 @@ func New() *http.Server {
 	health.RegisterRoutes(e)
 
 	srv := &http.Server{
-		Addr: fmt.Sprintf(":%d", 3000),
+		Addr:    fmt.Sprintf(":%d", 3000),
 		Handler: e,
 	}
 
@@ -31,7 +31,7 @@ func New() *http.Server {
 	// Becase this happens in a goroutine it will run concurrently with our
 	// server but will not block the execution of this function.
 	go func() {
-		<- graceful
+		<-graceful
 		err := srv.Shutdown(context.Background())
 		if err != nil {
 			log.Err(err).Error("server shutdown")

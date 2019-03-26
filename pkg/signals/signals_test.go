@@ -6,7 +6,7 @@ import (
 	"time"
 )
 
-func TestSetup(t *testing.T)  {
+func TestSetup(t *testing.T) {
 	ch := Setup()
 
 	syscall.Kill(syscall.Getpid(), syscall.SIGINT)

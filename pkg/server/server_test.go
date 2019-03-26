@@ -9,7 +9,7 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
-func TestNew (t *testing.T) {
+func TestNew(t *testing.T) {
 	srv := New()
 
 	t.Run("serves registered endpoint", func(tt *testing.T) {

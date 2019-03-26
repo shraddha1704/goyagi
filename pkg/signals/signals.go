@@ -20,14 +20,14 @@ func Setup() <-chan struct{} {
 
 	stop := make(chan struct{}) //create the channel we will return to the callee
 
-	c := make(chan os.Signal, 2)											// create channel c that will receive the os.Signals
-	signal.Notify(c, syscall.SIGINT, syscall.SIGTERM)	// send messages to c if we receive SIGINT or SIGTERM (can be triggered through Ctrl+C)
+	c := make(chan os.Signal, 2)                      // create channel c that will receive the os.Signals
+	signal.Notify(c, syscall.SIGINT, syscall.SIGTERM) // send messages to c if we receive SIGINT or SIGTERM (can be triggered through Ctrl+C)
 
 	go func() {
 		<-c
 		close(stop) // we've received a SIGINT message, we'll close this channel to notify the other goroutine that we can start shutting down the server
 		<-c
-		os.Exit(1)	// we've received a SIGTERM, terminate the program regardless of current execution
+		os.Exit(1) // we've received a SIGTERM, terminate the program regardless of current execution
 	}()
 
 	return stop

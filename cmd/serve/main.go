@@ -3,8 +3,8 @@ package main
 import (
 	"net/http"
 
-	"github.com/shraddha1704/goyagi/pkg/server"
 	"github.com/lob/logger-go"
+	"github.com/shraddha1704/goyagi/pkg/server"
 )
 
 func main() {
