@@ -16,9 +16,9 @@ var onlyOneSignalHandler = make(chan struct{})
 // which is closed on one of these signals. If a second signal is caught,
 // the program is terminated with exit code 1.
 func Setup() <-chan struct{} {
-	close(onlyOneSignalHandler) //panics when called twice
+	close(onlyOneSignalHandler) // panics when called twice
 
-	stop := make(chan struct{}) //create the channel we will return to the callee
+	stop := make(chan struct{}) // create the channel we will return to the callee
 
 	c := make(chan os.Signal, 2)                      // create channel c that will receive the os.Signals
 	signal.Notify(c, syscall.SIGINT, syscall.SIGTERM) // send messages to c if we receive SIGINT or SIGTERM (can be triggered through Ctrl+C)
