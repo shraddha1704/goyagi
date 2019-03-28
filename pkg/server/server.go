@@ -7,11 +7,13 @@ import (
 
 	"github.com/labstack/echo"
 	"github.com/lob/logger-go"
+	"github.com/shraddha1704/goyagi/pkg/application"
 	"github.com/shraddha1704/goyagi/pkg/health"
 	"github.com/shraddha1704/goyagi/pkg/signals"
 )
 
-func New() *http.Server {
+// New returns a new HTTP server with the registered routes.
+func New(app application.App) *http.Server {
 	log := logger.New()
 
 	e := echo.New()
@@ -19,7 +21,7 @@ func New() *http.Server {
 	health.RegisterRoutes(e)
 
 	srv := &http.Server{
-		Addr:    fmt.Sprintf(":%d", 3000),
+		Addr:    fmt.Sprintf(":%d", app.Config.Port),
 		Handler: e,
 	}
 
