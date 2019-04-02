@@ -9,8 +9,10 @@ import (
 	"github.com/lob/logger-go"
 	"github.com/shraddha1704/goyagi/pkg/application"
 	"github.com/shraddha1704/goyagi/pkg/binder"
+	"github.com/shraddha1704/goyagi/pkg/errors"
 	"github.com/shraddha1704/goyagi/pkg/health"
 	"github.com/shraddha1704/goyagi/pkg/movies"
+	"github.com/shraddha1704/goyagi/pkg/recovery"
 	"github.com/shraddha1704/goyagi/pkg/signals"
 )
 
@@ -23,14 +25,16 @@ func New(app application.App) *http.Server {
 	b := binder.New()
 	e.Binder = b
 	e.Use(logger.Middleware())
+	e.Use(recovery.Middleware())
 
-	health.RegisterRoutes(e)
+	errors.RegisterErrorHandler(e, app)
 
 	srv := &http.Server{
 		Addr:    fmt.Sprintf(":%d", app.Config.Port),
 		Handler: e,
 	}
 
+	health.RegisterRoutes(e)
 	movies.RegisterRoutes(e, app)
 
 	// signals.Setup() returns a channel we can wait until it's closed before we
